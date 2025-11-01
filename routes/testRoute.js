@@ -1,0 +1,115 @@
+const express = require('express');
+const router = express.Router();
+const TestController = require('../controllers/test_view')
+const authenticateToken = require('../middleware/authenticateToken');
+const verifyRoles = require('../middleware/verifyRole');
+const roleList = require('../models/helper/roleList');
+
+
+router.route('/create')
+    .post(
+        authenticateToken,
+        verifyRoles(
+            roleList.Admin,
+            roleList.School_admin,
+            roleList.Teacher,
+            roleList.Dean_of_study,
+        ),
+        TestController.createTest
+    )
+router.route('/all')
+    .post(
+        authenticateToken,
+        verifyRoles(
+            roleList.School_admin,
+            roleList.Admin,
+            roleList.Principal,
+            roleList.Vice_principal,
+            roleList.Headteacher,
+            roleList.Vice_headteacher,
+            roleList.Teacher
+        ),
+        TestController.getAllTests
+    )
+
+router.route('/:id/get')
+    .get(
+        authenticateToken,
+        verifyRoles(
+            roleList.School_admin,
+            roleList.Admin,
+            roleList.Teacher,
+            roleList.Principal,
+            roleList.Vice_headteacher,
+            roleList.Headteacher,
+            roleList.Vice_principal,
+            roleList.Dean_of_study
+        ),
+        TestController.getTestById
+    )
+router.route('/class/:classId/term/:termId/get')
+    .get(
+        authenticateToken,
+        verifyRoles(
+            roleList.Teacher,
+            roleList.Admin,
+            roleList.School_admin,
+            roleList.Student,
+            roleList.Headteacher,
+            roleList.Principal,
+            roleList.Vice_principal,
+            roleList.Vice_headteacher
+        ),
+        TestController.getTestsByClassAndTerm
+    )
+router.route('/klass/klassId/session/:sessionId/get')
+    .get(
+        authenticateToken,
+        verifyRoles(
+            roleList.Admin,
+            roleList.School_admin,
+            roleList.Teacher,
+            roleList.Principal,
+            roleList.Vice_principal,
+            roleList.Vice_headteacher,
+            roleList.Headteacher,
+            roleList.Dean_of_study
+        ),
+        TestController.getTestsByClassAndSession
+    )
+router.route('/subject/:subjectId/klass/:klassId/get')
+    .get(
+        authenticateToken,
+        verifyRoles(
+            roleList.Admin,
+            roleList.School_admin,
+            roleList.Teacher,
+            roleList.Dean_of_study,
+            roleList.Dean_of_study,
+            roleList.Principal,
+        ),
+        TestController.getTestsBySubjectAndClass
+    )
+router.route('/:id/update')
+    .put(
+        authenticateToken,
+        verifyRoles(
+            roleList.Admin,
+            roleList.School_admin,
+            roleList.Teacher,
+            roleList.Dean_of_study,
+        ),
+        TestController.updateTest
+    )
+router.route('/:id/delete')
+    .put(
+        authenticateToken,
+        verifyRoles(
+            roleList.Admin,
+            roleList.School_admin,
+            roleList.Teacher,
+            roleList.Dean_of_study,
+        ),
+        TestController.deleteTest
+    )
+module.exports = router;

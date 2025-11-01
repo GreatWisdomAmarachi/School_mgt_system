@@ -1,0 +1,125 @@
+const express = require('express');
+const router = express.Router();
+const ExamController = require('../controllers/exam_view');
+const authenticateToken = require('../middleware/authenticateToken');
+const verifyRoles = require('../middleware/verifyRole');
+const roleList = require('../models/helper/roleList');
+
+router.route('/create')
+    .post(
+        authenticateToken,
+        verifyRoles(
+            roleList.Admin,
+            roleList.School_admin,
+            roleList.Teacher,
+            roleList.Dean_of_study
+        ),
+        ExamController.createExam
+    )
+router.route('/all')
+    .get(
+        authenticateToken,
+        verifyRoles(
+            roleList.Admin,
+            roleList.School_admin,
+            roleList.Principal,
+            roleList.Headteacher,
+            roleList.Teacher,
+            roleList.Dean_of_study,
+        ),
+        ExamController.getAllExams
+    )
+router.route('/:id/get')
+    .get(
+        authenticateToken,
+        verifyRoles(
+            roleList.Admin,
+            roleList.School_admin,
+            roleList.Principal,
+            roleList.Headteacher,
+            roleList.Teacher,
+            roleList.Dean_of_study,
+            roleList.Student,
+        ),
+        ExamController.getExamById
+    )
+router.route('/klass/:klassId/term/:termId/get')
+    .get(
+        authenticateToken,
+        verifyRoles(
+            roleList.Admin,
+            roleList.School_admin,
+            roleList.Principal,
+            roleList.Vice_principal,
+            roleList.Headteacher,
+            roleList.Vice_headteacher,
+            roleList.Teacher,
+            roleList.Dean_of_study,
+        ),
+        ExamController.getExamsByClassAndTerm
+    )
+router.route('/klass/:klassId/session/:sessionId')
+    .get(
+        authenticateToken,
+        verifyRoles(
+            roleList.Admin,
+            roleList.School_admin,
+            roleList.Principal,
+            roleList.Vice_principal,
+            roleList.Headteacher,
+            roleList.Vice_headteacher,
+        ),
+        ExamController.getExamsByClassAndSession
+    )
+router.route('/klass/:klassId/subject/:subjectId')
+    .get(
+        authenticateToken,
+        verifyRoles(
+            roleList.Admin,
+            roleList.School_admin,
+            roleList.Principal,
+            roleList.Vice_principal,
+            roleList.Headteacher,
+            roleList.Vice_headteacher,
+            roleList.Teacher,
+            roleList.Dean_of_study,
+        ),
+        ExamController.getExamsBySubjectAndClass
+    )
+router.route('/class/:klassId/get')
+    .get(
+        authenticateToken,
+        verifyRoles(
+            roleList.Admin,
+            roleList.School_admin,
+            roleList.Principal,
+            roleList.Vice_principal,
+            roleList.Headteacher,
+            roleList.Vice_headteacher,
+            roleList.Dean_of_study,
+        ),
+        ExamController.getAllExamsByClass
+    )
+router.route('/:id/update')
+    .put(
+        authenticateToken,
+        verifyRoles(
+            roleList.Admin,
+            roleList.School_admin,
+            roleList.Teacher,
+            roleList.Dean_of_study
+        ),
+        ExamController.updateExam
+    )
+router.route('/:id/delete')
+    .delete(
+        authenticateToken,
+        verifyRoles(
+            roleList.Admin,
+            roleList.School_admin,
+            roleList.Teacher,
+            roleList.Dean_of_study
+        ),
+        ExamController.deleteExam
+    )
+module.exports = router;

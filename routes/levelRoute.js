@@ -1,0 +1,98 @@
+const express = require('express');
+const router = express.Router();
+const LevelController = require('../controllers/level_view')
+const authenticateToken = require('../middleware/authenticateToken');
+const verifyRoles = require('../middleware/verifyRole');
+const roleList = require('../models/helper/roleList');
+
+router.route('/create')
+    .post(
+        authenticateToken,
+        verifyRoles(
+            roleList.Admin,
+            roleList.School_admin,
+            roleList.Properietor,
+            roleList.Properietress,
+            roleList.Principal,
+            roleList.Vice_principal,
+            roleList.Headteacher,
+            roleList.Vice_headteacher,
+        ),
+        LevelController.createLevel
+    )
+router.route('/all')
+    .get(
+        authenticateToken,
+        verifyRoles(
+            roleList.Admin,
+            roleList.School_admin,
+            roleList.Properietor,
+            roleList.Properietress,
+            roleList.Principal,
+            roleList.Vice_principal,
+            roleList.Headteacher,
+            roleList.Vice_headteacher,
+        ),
+        LevelController.getLevels
+    );
+router.route('/:id/get')
+    .get(
+        authenticateToken,
+        verifyRoles(
+            roleList.Admin,
+            roleList.School_admin,
+            roleList.Properietor,
+            roleList.Properietress,
+            roleList.Principal,
+            roleList.Vice_principal,
+            roleList.Headteacher,
+            roleList.Vice_headteacher,
+        ),
+        LevelController.getLevel
+    );
+router.route('/session/:sessionId/get')
+    .get(
+        authenticateToken,
+        verifyRoles(
+            roleList.Admin,
+            roleList.School_admin,
+            roleList.Properietor,
+            roleList.Properietress,
+            roleList.Principal,
+            roleList.Vice_principal,
+            roleList.Headteacher,
+            roleList.Vice_headteacher,
+        ),
+        LevelController.getLevelsInSession
+    );
+    router.route('/:id/update')
+    .put(
+        authenticateToken,
+        verifyRoles(
+            roleList.Admin,
+            roleList.School_admin,
+            roleList.Properietor,
+            roleList.Properietress,
+            roleList.Principal,
+            roleList.Vice_principal,
+            roleList.Headteacher,
+            roleList.Vice_headteacher,
+        ),
+        LevelController.updateLevel
+        ),  
+        router.route('/:id/delete')
+    .delete(
+        authenticateToken,
+        verifyRoles(
+            roleList.Admin,
+            roleList.School_admin,
+            roleList.Properietress,
+            roleList.Principal,
+            roleList.Vice_principal,
+            roleList.Properietor,
+            roleList.Headteacher,
+            roleList.Vice_headteacher,
+        ),
+        LevelController.deleteLevel
+        );
+module.exports = router;

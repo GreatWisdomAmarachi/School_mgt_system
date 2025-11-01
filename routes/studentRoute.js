@@ -1,0 +1,102 @@
+const express = require('express');
+const router = express.Router()
+const StudentController = require('../controllers/student_view')
+const authenticateToken = require('../middleware/authenticateToken');
+const verifyRoles = require('../middleware/verifyRole');
+const roleList = require('../models/helper/roleList');
+
+router.route('/create')
+    .post(
+        authenticateToken,
+        verifyRoles(
+            roleList.Admin,
+            roleList.School_admin,
+            roleList.Student
+        ),
+        StudentController.createStudent
+    )
+router.route('/all')
+    .get(
+        authenticateToken,
+        verifyRoles(
+            roleList.Admin,
+            roleList.School_admin,
+            roleList.Principal,
+            roleList.Vice_principal,
+            roleList.Headteacher,
+            roleList.Vice_headteacher,
+        ),
+        StudentController.getAllStudent
+    );
+router.route('/:id/get')
+    .get(
+        authenticateToken,
+        verifyRoles(
+            roleList.Admin,
+            roleList.School_admin,
+            roleList.Student,
+            roleList.Teacher,
+            roleList.Bursar,
+            roleList.Dean_of_study,
+            roleList.Principal,
+            roleList.Vice_principal,
+            roleList.Headteacher,
+            roleList.Vice_headteacher,
+            roleList.Parent
+        ),
+        StudentController.getStudent
+    );
+router.route('/klass/:klassId/all')
+    .get(
+        authenticateToken,
+        verifyRoles(
+            roleList.Admin,
+            roleList.School_admin,
+            roleList.Teacher,
+            roleList.Bursar,
+            roleList.Principal,
+            roleList.Vice_principal,
+            roleList.Headteacher,
+            roleList.Vice_headteacher
+        ),
+        StudentController.getStudentsInParticularKlass
+    );
+router.route('klass/:klassId/get')
+    .get(
+        authenticateToken,
+        verifyRoles(
+            roleList.Student,
+            roleList.Teacher,
+            roleList.Bursar,
+            roleList.Admin,
+            roleList.School_admin,
+            roleList.Dean_of_study,
+            roleList.Principal,
+            roleList.Vice_principal,
+            roleList.Headteacher,
+            roleList.Vice_headteacher
+        ),
+        StudentController.getAStudentInKlass
+    );
+router.route('/:id/update')
+    .put(
+        authenticateToken,
+        verifyRoles(
+            roleList.Admin,
+            roleList.School_admin,
+            roleList.Student
+        ),
+        StudentController.updateStudent
+    );
+router.route('/:id/delete')
+    .delete(
+        authenticateToken,
+        verifyRoles(
+            roleList.Admin,
+            roleList.School_admin,
+            roleList.Student,
+        ),
+        StudentController.deleteStudent
+    );
+
+module.exports = router;

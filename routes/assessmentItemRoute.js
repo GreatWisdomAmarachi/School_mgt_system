@@ -1,0 +1,131 @@
+const express = require('express');
+const router = express.Router();
+const AssessmentItemController = require('../controllers/assessmentItem_view');
+const authenticateToken = require('../middleware/authenticateToken');
+const verifyRoles = require('../middleware/verifyRole');
+const roleList = require('../models/helper/roleList');
+
+router.route('/create')
+    .post(
+        authenticateToken,
+        verifyRoles(
+            roleList.Teacher,
+            roleList.Admin,
+            roleList.School_admin
+        ),
+        AssessmentItemController.createAssessmentItem
+    )
+router.route('/all')
+    .get(
+        authenticateToken,
+        verifyRoles(
+            roleList.Admin,
+            roleList.School_admin,
+            roleList.Principal,
+            roleList.Vice_principal,
+            roleList.Headteacher,
+            roleList.Vice_headteacher
+        ),
+        AssessmentItemController.getAllAssessmentItems
+    )
+router.route('/:id/get')
+    .get(
+        authenticateToken,
+        verifyRoles(
+            roleList.Admin,
+            roleList.School_admin,
+            roleList.Student,
+            roleList.Principal,
+            roleList.Vice_principal
+        ),
+        AssessmentItemController.getAllAssessmentItemsById
+    )
+router.route('/student/:studentId/get')
+    .get(
+        authenticateToken,
+        verifyRoles(
+            roleList.Admin,
+            roleList.School_admin,
+            roleList.Student,
+            roleList.Teacher,
+            roleList.Principal,
+            roleList.Vice_headteacher,
+            roleList.Headteacher,
+            roleList.Vice_principal
+        ),
+        AssessmentItemController.getAssessmentItemByStudent
+    )
+router.route('/session/:sessionId/get')
+    .get(
+        authenticateToken,
+        verifyRoles(
+            roleList.Admin,
+            roleList.School_admin,
+            roleList.Principal,
+            roleList.Vice_principal,
+            roleList.Headteacher,
+            roleList.Vice_headteacher
+        ),
+        AssessmentItemController.getAssessmentItemBySession
+    )
+router.route('/subject/:subjectId/klass/:klassId/get')
+    .get(
+        authenticateToken,
+        verifyRoles(
+            roleList.Admin,
+            roleList.School_admin,
+            roleList.Teacher,
+            roleList.Student
+        ),
+        AssessmentItemController.getAssessmentItemBySubjectAndKlass
+    )
+router.route('/term/:termId/get')
+    .get(
+        authenticateToken,
+        verifyRoles(
+            roleList.Admin,
+            roleList.School_admin,
+            roleList.Principal,
+            roleList.Vice_principal,
+            roleList.Headteacher,
+            roleList.Vice_headteacher
+        ),
+        AssessmentItemController.getAssessmentItemByTerm
+    )
+router.route('/klass/:klassId/get')
+    .get(
+        authenticateToken,
+        verifyRoles(
+            roleList.Teacher,
+            roleList.Student,
+            roleList.Admin,
+            roleList.School_admin,
+            roleList.Headteacher,
+            roleList.Vice_headteacher,
+            roleList.Principal,
+            roleList.Vice_principal
+        ),
+        AssessmentItemController.getAssessmentItemByClass
+    )
+router.route('/:id/update')
+    .put(
+        authenticateToken,
+        verifyRoles(
+            roleList.Teacher,
+            roleList.Admin,
+            roleList.School_admin
+        ),
+        AssessmentItemController.updateAssessmentItem
+    )
+router.route('/:id/delete')
+    .delete(
+        authenticateToken,
+        verifyRoles(
+            roleList.Teacher,
+            roleList.Admin,
+            roleList.School_admin
+        ),
+        AssessmentItemController.deleteAssessmentItem
+    )
+
+module.exports = router;

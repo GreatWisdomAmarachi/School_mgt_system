@@ -1,0 +1,304 @@
+const express  = require('express');
+const router = express.Router();
+const UserController = require('../controllers/user_view');
+const authenticateToken = require('../middleware/authenticateToken');
+const verifyRoles = require('../middleware/verifyRole');
+const roleList = require('../models/helper/roleList');
+
+
+router.route('all')
+    .get(
+        authenticateToken,
+        verifyRoles(
+            roleList.Admin,
+            roleList.School_admin,
+            roleList.Properietor,
+            roleList.Properietress,
+            roleList.Principal,
+            roleList.Vice_principal,
+            roleList.Headteacher,
+            roleList.Vice_headteacher,
+        ),
+        UserController.getUsers
+    ); 
+router.post('/admin/create', UserController.createAdmin);
+router.route('/admin/all')
+    .get(
+        authenticateToken,
+        verifyRoles(
+            roleList.Admin,
+            roleList.School_admin,
+            roleList.Properietor,
+            roleList.Properietress,
+            roleList.Principal,
+            roleList.Vice_principal,
+            roleList.Headteacher,
+            roleList.Vice_headteacher,
+        ),
+        UserController.getAdmins
+    );
+router.get('/admin/:id/get', UserController.getAdmin);
+router.put('/admin/:id/update', UserController.updateAdmin);
+router.delete('/admin/:id/delete', UserController.deleteAdmin);
+
+router.post('/Schooladmin/create',UserController.createSchool_admin);
+router.route('/Schooladmins/all')
+    .get(
+        authenticateToken,
+        verifyRoles(
+            roleList.Admin,
+            roleList.School_admin,
+            roleList.Properietor,
+            roleList.Properietress,
+            roleList.Principal,
+            roleList.Vice_principal,
+            roleList.Headteacher,
+            roleList.Vice_headteacher,
+        ),
+        UserController.getSchool_admins
+    );
+router.get('/Schooladmin/:id/get',UserController.getSchool_admin);
+router.put('/Schooladmin/:id/update',UserController.updateSchool_admin);
+router.delete('/Schooladmin/:id/delete',UserController.deleteSchool_admin);
+
+router.post('/properietor/create', UserController.createProperietor);
+router.route('/properietors/all')
+    .get(
+        authenticateToken,
+        verifyRoles(
+            roleList.Admin,
+            roleList.School_admin,
+            roleList.Properietor,
+            roleList.Properietress,
+            roleList.Principal,
+            roleList.Vice_principal,
+            roleList.Headteacher,
+            roleList.Vice_headteacher,
+        ),
+        UserController.getProperietors
+    );
+router.get('/properietor/:id/get',UserController.getProperietor);
+router.put('/properietor/:id/update',UserController.updateProperietor);
+router.delete('/properietor/:id/delete',UserController.deleteProperietor);
+
+router.post('/Properietress/create',UserController.createProperietress);
+router.route('/Properietress/all')
+    .get(
+        authenticateToken,
+        verifyRoles(
+            roleList.Admin,
+            roleList.School_admin,
+            roleList.Properietor,
+            roleList.Properietress,
+            roleList.Principal,
+            roleList.Vice_principal,
+            roleList.Headteacher,
+            roleList.Vice_headteacher,
+        ),
+        UserController.getProperietress
+    );
+router.get('/Properietress/:id/get',UserController.getProperietress);
+router.put('/Properietress/:id/update',UserController.updateProperietress);
+router.delete('/Properietress/:id/delete',UserController.deleteProperietress);
+
+router.post('/principal/create',UserController.createPrincipal);
+router.route('/principals/all')
+    .get(
+        authenticateToken,
+        verifyRoles(
+            roleList.Admin,
+            roleList.School_admin,
+            roleList.Properietor,
+            roleList.Properietress,
+            roleList.Principal,
+            roleList.Vice_principal,
+            roleList.Headteacher,
+            roleList.Vice_headteacher,
+        ),
+        UserController.getPrincipals
+    );
+router.get('/principal/:id/get',UserController.getPrincipal);
+router.put('/principal/:id/update',UserController.updatePrincipal);
+router.delete('/principal/:id/delete',UserController.deletePrincipal);
+
+router.post('/viceHeadteacher/create',UserController.createViceHeadteacher);
+router.route('/viceHeadteachers/all')
+    .get(
+        authenticateToken,
+        verifyRoles(
+            roleList.Admin,
+            roleList.School_admin,
+            roleList.Properietor,
+            roleList.Properietress,
+            roleList.Principal,
+            roleList.Vice_principal,
+            roleList.Headteacher,
+            roleList.Vice_headteacher,
+        ),
+        UserController.getViceHeadteachers
+    );
+router.get('/viceHeadteacher/:id/get',UserController.getViceHeadteacher);
+router.put('/viceHeadteacher/:id/update',UserController.updateViceHeadteacher);
+router.delete('/viceHeadteacher/:id/delete',UserController.deleteViceHeadteacher);
+
+router.post('/Bursar/create',UserController.createBursar);
+router.route('/Bursars/all')
+    .get(
+        authenticateToken,
+        verifyRoles(
+            roleList.Admin,
+            roleList.School_admin,
+            roleList.Properietor,
+            roleList.Properietress,
+            roleList.Principal,
+            roleList.Vice_principal,
+            roleList.Headteacher,
+            roleList.Vice_headteacher,
+        ),
+        UserController.getBursars
+    );
+router.get('/Bursar/:id/get',UserController.getBursar);
+router.put('/Bursar/:id/update',UserController.updateBursar);
+router.delete('/Bursar/:id/delete',UserController.deleteBursar);
+
+router.post('/vicePrincipal/create',UserController.createVicePrincipal);
+router.route('/vicePrincipals/all')
+    .get(
+        authenticateToken,
+        verifyRoles(
+            roleList.Admin,
+            roleList.School_admin,
+            roleList.Properietor,
+            roleList.Properietress,
+            roleList.Principal,
+            roleList.Vice_principal,
+            roleList.Headteacher,
+            roleList.Vice_headteacher,
+        ),
+        UserController.getVicePrincipals
+    );
+router.get('/vicePrincipal/:id/get',UserController.getVicePrincipal);
+router.put('/vicePrincipal/:id/update',UserController.updatevicePrincipal);
+router.delete('/vicePrincipal/:id/delete',UserController.deleteVicePrincipal);
+
+router.post('/HeadTeacher/create',UserController.createHeadTeacher);
+router.route('/HeadTeachers/all')
+    .get(
+        authenticateToken,
+        verifyRoles(
+            roleList.Admin,
+            roleList.School_admin,
+            roleList.Properietor,
+            roleList.Properietress,
+            roleList.Principal,
+            roleList.Vice_principal,
+            roleList.Headteacher,
+            roleList.Vice_headteacher,
+        ),
+        UserController.getHeadTeachers
+    );
+router.get('/HeadTeacher/:id/get',UserController.getViceHeadteacher);
+router.put('/HeadTeacher/:id/update',UserController.updateheadteacher);
+router.delete('/HeadTeacher/:id/delete',UserController.deleteHeadTeacher);
+
+router.post('/Auditor/create',UserController.createAuditor);
+router.route('/Auditors/all')
+    .get(
+        authenticateToken,
+        verifyRoles(
+            roleList.Admin,
+            roleList.School_admin,
+            roleList.Properietor,
+            roleList.Properietress,
+            roleList.Principal,
+            roleList.Vice_principal,
+            roleList.Headteacher,
+            roleList.Vice_headteacher,
+        ),
+        UserController.getAuditors
+    );
+router.get('/Auditor/:id/get',UserController.getAuditor);
+router.put('/Auditor/:id/update',UserController.updateAuditor);
+router.delete('/Auditor/:id/delete',UserController.deleteAuditor);
+
+router.post('/Teacher/create',UserController.createTeacher);
+router.route('/Teachers/all')
+    .get(
+        authenticateToken,
+        verifyRoles(
+            roleList.Admin,
+            roleList.School_admin,
+            roleList.Properietor,
+            roleList.Properietress,
+            roleList.Principal,
+            roleList.Vice_principal,
+            roleList.Headteacher,
+            roleList.Vice_headteacher,
+        ),
+        UserController.getTeachers
+    );
+router.get('/Teacher/:id/get',UserController.getTeacher);
+router.put('/Teacher/:id/update',UserController.updateTeacher);
+router.delete('/Teacher/:id/delete',UserController.deleteTeacher);
+
+router.post('/Student/create',UserController.createStudent);
+router.route('/Students/all')
+    .get(
+        authenticateToken,
+        verifyRoles(
+            roleList.Admin,
+            roleList.School_admin,
+            roleList.Properietor,
+            roleList.Properietress,
+            roleList.Principal,
+            roleList.Vice_principal,
+            roleList.Headteacher,
+            roleList.Vice_headteacher,
+        ),
+        UserController.getStudents
+    );
+router.get('/Student/:id/get',UserController.getStudent);
+router.put('/Student/:id/update',UserController.updateStudent);
+router.delete('/Student/:id/delete',UserController.deleteStudent);
+
+router.post('/DeanOfStudy/create',UserController.createDeanOfStudy);
+router.route('/DeanOfStudies/all')
+    .get(
+        authenticateToken,
+        verifyRoles(
+            roleList.Admin,
+            roleList.School_admin,
+            roleList.Properietor,
+            roleList.Properietress,
+            roleList.Principal,
+            roleList.Vice_principal,
+            roleList.Headteacher,
+            roleList.Vice_headteacher,
+        ),
+        UserController.getAllDeanOfStudies
+    );
+router.get('/DeanOfStudy/:id/get',UserController.getDeanOfStudy);
+router.put('/DeanOfStudy/:id/update',UserController.updateDeanOfStudy);
+router.delete('/DeanOfStudy/:id/delete',UserController.deleteDeanOfStudy);
+
+router.post('/Parent/create',UserController.createParent);
+router.route('/Parents/all')
+    .get(
+        authenticateToken,
+        verifyRoles(
+            roleList.Admin,
+            roleList.School_admin,
+            roleList.Properietor,
+            roleList.Properietress,
+            roleList.Principal,
+            roleList.Vice_principal,
+            roleList.Headteacher,
+            roleList.Vice_headteacher,
+        ),
+        UserController.getParents
+    );
+router.get('/Parent/:id/get',UserController.getParent);
+router.put('/Parent/:id/update',UserController.updateParent);
+router.delete('/Parent/:id/delete',UserController.deleteParent);
+
+module.exports = router;
