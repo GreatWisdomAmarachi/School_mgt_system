@@ -4,6 +4,7 @@ const Teacher = require('../models/Teacher')
 
 exports.createSubject = async (req, res) => {
     const { name, klassId, teacherId} = req.body;
+    
     if (!name) {
         return res.status(400).json({ message: 'Name is required' });
     }
@@ -91,7 +92,7 @@ exports.getTeacherSubjects = async (req, res) => {
 
 exports.updateSubject = async (req, res) => {
     try {
-        const { name, KlassId , teacherId} = req.body;
+        const { name, klassId , teacherId} = req.body;
         const subject = await Subject.findById(req.params.id);
 
         if (!subject) {
@@ -103,14 +104,14 @@ exports.updateSubject = async (req, res) => {
             if(!klass) {
                 return res.status(404).json({ message: 'Class not found'});
             }
-            subject.KlassId = klassId;
+            subject.klassId = klassId;
         }
         if (teacherId !== undefined) {
             const teacher = await Teacher.findById(teacherId);
             if (!teacher) {
                 return res.status(404).json({ message: 'Teacher not found '});
             }
-            subjects.teacherId = teacherId;
+            subject.teacherId = teacherId;
         }
         const updatedSubject = await subject.save();
         res.status(200).json(updatedSubject);
@@ -121,7 +122,7 @@ exports.updateSubject = async (req, res) => {
 exports.deleteSubject = async (req, res) => {
     try {
         const subject = await Subject.findByIdAndDelete(req.params.id);
-        if (!subjects) { return res.status(400).json({ message: 'Subject not found'});
+        if (!subject) { return res.status(400).json({ message: 'Subject not found'});
         }
         res.status(200).json({ message: 'Subjects deleted successfully'});
     } catch (error) {

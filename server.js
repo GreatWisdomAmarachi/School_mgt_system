@@ -1,4 +1,7 @@
 const express = require('express');
+const cors = require('cors');
+
+
 const connectDB = require('./DB/connection');
 const sessionRoute = require('./routes/sessionRoute');
 const termRoute = require('./routes/termRoute');
@@ -21,15 +24,19 @@ const assessmentRoute = require('./routes/assessmentRoute');
 const resultRoute = require('./routes/resultRoute');
 const reportCardRoute = require('./routes/reportCardRoute');
 const authRoute = require('./routes/authRoute');
+const adminRoute = require('./routes/adminRoute');
 const cookieParser = require('cookie-parser');
-
-
 
 
 const app = express()
 
 // connection to mongoDB
 connectDB()
+
+app.use(cors({
+    origin: "http://localhost:5173",
+    credentials: true, // 👈 correct spelling
+}))     
 
 //middleware to parse JSON bodies
 app.use(express.json());
@@ -59,6 +66,7 @@ app.use('/api/v1/assessment', assessmentRoute)
 app.use('/api/v1/result', resultRoute)
 app.use('/api/v1/reportcard', reportCardRoute)
 app.use('/api/v1/auth', authRoute)
+app.use('/api/v1/admin', adminRoute)
 
 
 app.get('/', (req, res) =>{

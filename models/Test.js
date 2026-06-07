@@ -1,6 +1,6 @@
 const mongoose =  require('mongoose');
 const TestQuestionSchema = new mongoose.Schema({
-    testquestionText: {
+    testQuestionText: {
         type: String,
         required: true
     },
@@ -8,7 +8,7 @@ const TestQuestionSchema = new mongoose.Schema({
         type: [String],
         required: true
     },
-    correctAnwser: {
+    correctAnswer: {
         type: String,
         required: true
     },
@@ -54,7 +54,7 @@ const TestSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ["draft", "published", "Closed"],
+        enum: ["draft", "Published", "Closed"],
         default: "Draft"
     },
     created_by: {
@@ -66,7 +66,7 @@ const TestSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     },
-});
+}, { timestamps: true});
 
 TestSchema.pre("save", function (next) {
      if (this.questions.length > 0) {

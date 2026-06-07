@@ -4,17 +4,14 @@ const TeacherSchema = new mongoose.Schema({
     userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
-        trim: true,
         required: true
     },
     levelId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Level',
-        type: String,
         required: true,
-        trim: true
     },
-    subjectId: {
+    subjects: {
         type: [String],
         required: true,
         trim: true

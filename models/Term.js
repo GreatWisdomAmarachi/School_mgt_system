@@ -4,25 +4,25 @@ const TermSchema = new mongoose.Schema({
     sessionId: {
         type: mongoose.Schema.Types.ObjectId,
         ref:'Session',
-        require: true,
+        required: true,
         trim: true,
     },
     name:{
         type: String,
-        require:true,
+        required: true,
         trim:true,
     },
     startDate:{
         type:Date,
-        require:true,
+        required:true,
     },
     endDate:{
         type:Date,
-        require:true,
+        required: true,
     },
     isCurrent:{
         type: Boolean,
-        require:true,
+        required:true,
         default:true,
     }
 }, { timestamps: true })

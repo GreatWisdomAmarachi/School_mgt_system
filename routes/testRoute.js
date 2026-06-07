@@ -102,7 +102,7 @@ router.route('/:id/update')
         TestController.updateTest
     )
 router.route('/:id/delete')
-    .put(
+    .delete(
         authenticateToken,
         verifyRoles(
             roleList.Admin,

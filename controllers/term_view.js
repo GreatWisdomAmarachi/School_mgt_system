@@ -44,7 +44,11 @@ exports.createTerm = async (req, res) => {
 exports.getTerms = async (req, res) => {
     try{
         const terms = await Term.find().populate('sessionId', 'name');
-        res.status(200).json(terms);
+        
+        res.status(200).json({
+        success: true,
+        data: terms
+       });
     } catch (error) {
         res.status(500).json({ message: error.message})
     }

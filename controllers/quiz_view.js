@@ -5,6 +5,7 @@ const Session = require("../models/Session");
 const Term = require("../models/Term");
 const Klass = require("../models/Klass");
 const Subject = require("../models/Subject");
+const { findByIdAndDelete } = require("../models/User");
 
 exports.createQuiz = async (req, res) => {
     try {
@@ -139,7 +140,7 @@ exports.updateQuiz = async (req, res) => {
 
 exports.deleteQuiz = async (req, res) => {
     try {
-        const quiz = await findQuizByIdAndDelete(req.params.id);
+        const quiz = await Quiz.findByIdAndDelete(req.params.id);
         if (!quiz) return res.status(404).json({ message: "Quiz not found" });
 
         res.status(200).json({ message: "Quiz deleted successfully" });

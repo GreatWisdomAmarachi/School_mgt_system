@@ -55,7 +55,7 @@ const QuizSchema = new mongoose.Schema({
     status: {
         type: String,
         enum: ["draft", "published", "Closed"],
-        default: "Draft"
+        default: "draft"
     },
     created_by: {
         type: mongoose.Schema.Types.ObjectId,

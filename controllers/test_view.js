@@ -138,7 +138,7 @@ exports.updateTest = async (req, res) => {
 
 exports.deleteTest = async (req, res) => {
     try {
-        const test = await findTestByIdAndDelete(req.params.id);
+        const test = await Test.findByIdAndDelete(req.params.id);
         if (!test) return res.status(404).json({ message: "Test not found" });
 
         res.status(200).json({ message: "Test deleted successfully" });

@@ -17,8 +17,11 @@ exports.createSession = async (req, res) => {
 
 exports.getAllSession = async (req, res) => {
     try {
-        const sessions = await Session.find();
-        res.status(200).json(sessions);
+        const sessions = await Session.find().populate('name');
+        res.status(200).json({
+        success: true,
+        data: sessions
+       });
     } catch (error) {
         res.status(500).json({message: error.message})
     }

@@ -69,10 +69,10 @@ const ExamSchema = new mongoose.Schema({
 });
 
 ExamSchema.pre("save", function (next) {
-     if (this.questions.length > 0) {
+  if (this.questions.length > 0) {
     this.maxScore = this.questions.reduce((total, question) => total + question.marks, 0);
- }
- next();
+  }
+  next();
 });
 
- module.exports = mongoose.model("Exam", ExamSchema);
+module.exports = mongoose.models.Exam || mongoose.model("Exam", ExamSchema);

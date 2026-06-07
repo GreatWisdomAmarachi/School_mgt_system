@@ -9,7 +9,7 @@ const SessionSchema = new mongoose.Schema({
     isCurrent: {
         type: Boolean,
         default: true,
-        require: true,
+        required: true,
     },
     createdAt:{
         type: Date,

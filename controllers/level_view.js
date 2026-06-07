@@ -41,7 +41,10 @@ exports.createLevel = async (req, res) => {
 exports.getLevels = async (req, res) => {
     try{
         const levels = await Level.find().populate('sessionId', 'name');
-        res.status(200).json(levels);
+       res.status(200).json({
+        success: true,
+        data: levels
+       });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }

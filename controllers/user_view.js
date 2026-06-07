@@ -59,19 +59,46 @@ exports.getAdmin = async (req, res) => {
 exports.updateAdmin = async (req, res) => {
     try {
         const admin = await User.findById(req.params.id);
-        if (!admin) return res.status(404).json({ message: 'admin not found!' })
-        const updatableFields = ['title', 'surname', 'middlename', 'lastname', 'email', 'password', 'role', 'phone'];
-        updatableFields.forEach(field => {
+
+        if (!admin) {
+            return res.status(404).json({ message: "Admin not found!" });
+        }
+
+        const updatableFields = [
+            "title",
+            "surname",
+            "middlename",
+            "lastname",
+            "email",
+            "password",
+            "role",
+            "phone",
+        ];
+
+        for (const field of updatableFields) {
             if (req.body[field] !== undefined) {
-                admin[field] = req.body[field];
+
+                if (field === "password") {
+                    const salt = await bcrypt.genSalt(10);
+                    admin.password = await bcrypt.hash(req.body.password, salt);
+                } else {
+                    admin[field] = req.body[field];
+                }
+
             }
-        });
+        }
+
         const updatedUser = await admin.save();
-        res.status(200).json({ message: 'Admin updated succesfully', data: updatedUser });
+
+        res.status(200).json({
+            message: "Admin updated successfully",
+            data: updatedUser,
+        });
+
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
-}
+};   
 
 exports.deleteAdmin = async (req, res) => {
     try {

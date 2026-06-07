@@ -2,10 +2,15 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
 const getAuthToken = (user) => {
-    return jwt.sign({ id: user._id, roles: [user.role] }, process.env.JWT_SECRET,{
-        expiresIn: '1h',
-    });
-}
+   return jwt.sign(
+    {
+        id: user._id,
+        roles: [user.role],
+    },
+    process.env.JWT_SECRET,
+    { expiresIn: "1h"}
+   );
+};
 
 const genRefreshToken = (user) => {
     return jwt.sign({ id: user._id, role: user.role }, process.env.JWT_REFRESH_SECRET,{

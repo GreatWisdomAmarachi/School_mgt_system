@@ -1,5 +1,3 @@
-const User = require('../models/User')
-const bcrypt = require('bcryptjs')
 const authenticateUser = require('../models/helper/authenticateUser')
 const generateToken = require('../models/helper/generateToken')
 
@@ -25,13 +23,13 @@ exports.login = async (req, res) => {
         }
 
         // Generate token
-        const token = generateToken(user)
+        const { authToken, refreshToken } = generateToken(user)
 
         //set refresh token as httpOnly cookie
-        res.cookie('refreshToken', token.refreshToken, {
+        res.cookie('refreshToken', refreshToken, {
             httpOnly: true,
-            secure: process.env.NODE_ENV === 'development', // Set to true in development
-            sameSite: 'None', // Adjust based on your requirements
+            secure: false,
+            sameSite: 'lax', // Adjust based on your requirements
             maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
         })
 
@@ -56,8 +54,7 @@ exports.login = async (req, res) => {
                     createdAt: user.createdAt,
                     updatedAt: user.updatedAt,
                 },
-                token: token.authToken,
-                refreshToken: token.refreshToken,
+                accessToken: authToken,
             },
         })
     } catch (error) {
@@ -74,8 +71,8 @@ exports.logout = async (req, res) => {
         //clear the refresh token cookie
         res.clearCookie('refreshToken', {
             httpOnly: true,
-            secure: process.env.NODE_ENV === 'development', // Set to true in development
-            sameSite: 'None', // Adjust based on your requirements
+            secure: false,
+            sameSite: 'lax', // Adjust based on your requirements
         })
 
         return res.status(200).json({
